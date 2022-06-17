@@ -1,6 +1,8 @@
 body{
     background:rgb(87, 87, 211);
     color: white;
+    margin: auto;
+    text-align: center;
 }
 
 .pente{
@@ -10,10 +12,13 @@ body{
     width: 50%;
 }
 
+.gameBoard{
+    display:grid;
+}
+
 .cell{
     background: white;
-    border-top: 3px dotted black;
-    padding: 1px;
+    padding: 4px;
 }
 
 .startButton{
