@@ -1,8 +1,11 @@
 body{
     background:rgb(87, 87, 211);
-}
-
-h1, h2, h3, h6{
     color: white;
 }
 
+.pente{
+    align-content: center;
+    margin:auto;
+    padding: 5% 15%;
+    width: 30%
+}
