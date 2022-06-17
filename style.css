@@ -13,12 +13,18 @@ body{
 }
 
 .gameBoard{
+    background: grey;
     display:grid;
+    gap: 4px;
+    width: auto;
+    padding: 4px;
 }
 
 .cell{
     background: white;
     padding: 4px;
+    width: 20px;
+    height: 20px;
 }
 
 .startButton{

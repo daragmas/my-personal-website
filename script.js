@@ -5,8 +5,8 @@ function makeGameBoard(){
     const gameBoard = document.createElement('div');
     gameBoard.className = 'gameBoard';
     penteDiv.appendChild(gameBoard);
-    for (row = 1; row < 6; row++){
-        for (col = 1; col < 6; col++){
+    for (row = 1; row < 20; row++){
+        for (col = 1; col < 20; col++){
             let cell = document.createElement('div');
             cell.className = 'cell';
             cell.style.setProperty('grid-area', `${row} / ${col}`);
