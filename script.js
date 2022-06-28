@@ -1,12 +1,13 @@
 const penteDiv = document.createElement('div');
 penteDiv.className = 'pente';
 
+
 function makeGameBoard(){
     const gameBoard = document.createElement('div');
     gameBoard.className = 'gameBoard';
     penteDiv.appendChild(gameBoard);
-    for (row = 1; row < 20; row++){
-        for (col = 1; col < 20; col++){
+    for (row = 1; row < 21; row++){
+        for (col = 1; col < 21; col++){
             let cell = document.createElement('div');
             cell.className = 'cell';
             cell.style.setProperty('grid-area', `${row} / ${col}`);
