@@ -25,7 +25,19 @@ body{
     height: 20px;
 }
 
+.cell:hover{
+    background: dodgerblue;
+}
+
 .startButton{
     margin: 0 40%;
     text-align: center;
+}
+
+.player1{
+    background: greenyellow;
+}
+
+.player2{
+    background: purple
 }
