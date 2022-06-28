@@ -55,7 +55,10 @@ function winCheck(lastPlacement){
     else{
         for(rowMod= -1; rowMod < 2; rowMod++){
             for(colMod= -1; colMod < 2; colMod++){
-                if(adjacentCheck(lastPlacement,rowMod,colMod) == currentPlayer & (Math.abs(rowMod)+Math.abs(colMod) != 0)){console.log(`${rowMod},${colMod}`)}
+                if(adjacentCheck(lastPlacement,rowMod,colMod) == currentPlayer & (Math.abs(rowMod)+Math.abs(colMod) != 0)){
+                    for(toWin=2;toWin<6;toWin++){
+                        console.log(`${rowMod*toWin},${colMod*toWin}`)
+                    }}
             }
         }
     }
