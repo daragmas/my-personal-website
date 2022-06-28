@@ -2,6 +2,7 @@ const penteDiv = document.createElement('div');
 penteDiv.className = 'pente';
 let currentPlayer = "player1"
 const gridLetters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t']
+let captures = {'player1':0, 'player2':0}
 
 function passTurn(){
     if (currentPlayer == 'player1'){currentPlayer = 'player2'}
@@ -11,23 +12,33 @@ function passTurn(){
 function adjacentCheck(baseCell,rowModifier,colModifier){
     //target cell at select distance from base cell
     let baseCellClasses = baseCell[0].classList
-    let targetCellRow = parseInt(baseCellClasses[1]) + rowModifier
+    let targetCellRow = `${parseInt(baseCellClasses[1]) + rowModifier}`
+    //console.log(targetCellRow)
+     
     let colIndex = gridLetters.indexOf(baseCellClasses[2])
-    let targetCellCol = gridLetters[colIndex+colModifier]
-    let targetCell = document.getElementsByClassName(`${targetCellRow} ${targetCellCol}`)
-    console.log(targetCell)
+    let colIndexModded = colIndex + colModifier
+    // console.log(colIndexModded)
     
-    //return player class, if any
-    let targetCellClassList = targetCell[0].classList
-    if (targetCellClassList.length > 3) {
-        return targetCellClassList[3]
+    let targetCellCol = gridLetters[colIndexModded]
+    if (targetCellRow < 1 || targetCellRow > 20) { return 1 }
+    else if (colIndexModded < 0 || colIndexModded > 19) { return 2 }
+    else {
+        let targetCell = document.getElementsByClassName(`${targetCellRow} ${targetCellCol}`)
+        //console.log(targetCell)
+
+        //return player class, if any
+        let targetCellClassList = targetCell[0].classList
+        if (targetCellClassList.length > 3) {
+            return targetCellClassList[3]
+        } 
     }
 }
 
 
 function captureCheck(lastPlacement){
     //go to last placed stone
-    adjacentCheck(lastPlacement,1,1)
+    let checky = adjacentCheck(lastPlacement,1,1)
+    //console.log(checky)
     //check for adjacent stones
     //if adjacent stone belonging to other player present, 
         //check if another opposing stone is next in line to that one
@@ -38,8 +49,16 @@ function captureCheck(lastPlacement){
 
 }
 
-function winCheck(){
+function winCheck(lastPlacement){
     //check if player's capture total has reached 10
+    if (captures[currentPlayer] == 10){console.log(`${currentPlayer} wins!`)}
+    else{
+        for(rowMod= -1; rowMod < 2; rowMod++){
+            for(colMod= -1; colMod < 2; colMod++){
+                if(adjacentCheck(lastPlacement,rowMod,colMod) == currentPlayer & (Math.abs(rowMod)+Math.abs(colMod) != 0)){console.log(`${rowMod},${colMod}`)}
+            }
+        }
+    }
     //get coordinate for last placement
         //check adjacent cells for allied stones
 }
@@ -53,7 +72,7 @@ function playGame(){
         if (cellSelect[0].classList.length < 4){
             cellSelect[0].classList.add(currentPlayer);
             captureCheck(cellSelect)
-            winCheck()
+            winCheck(cellSelect)
             passTurn()
         }  
     })
