@@ -1,13 +1,23 @@
 const penteDiv = document.createElement('div');
 penteDiv.className = 'pente';
+let currentPlayer = "player1"
+
+function passTurn(){
+    if (currentPlayer == 'player1'){currentPlayer = 'player2'}
+    else if (currentPlayer == 'player2'){currentPlayer = 'player1'}
+}
 
 function playGame(){
     document.addEventListener('mousedown', function (e) {
         // console.log(e.path[0].classList[1]);
         let cellSelect = document.getElementsByClassName(`${e.path[0].classList[1]}`);
         console.log(cellSelect[0].classList);
-        cellSelect[0].classList.add('player1');
+        if (cellSelect[0].classList.length < 3){
+            cellSelect[0].classList.add(currentPlayer);
+            passTurn()
+        }  
     })
+    
 
 }
 
