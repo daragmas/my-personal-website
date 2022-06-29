@@ -53,14 +53,29 @@ function winCheck(lastPlacement){
     //check if player's capture total has reached 10
     if (captures[currentPlayer] == 10){console.log(`${currentPlayer} wins!`)}
     else{
+        let adjacentStones = 0
         for(rowMod= -1; rowMod < 2; rowMod++){
             for(colMod= -1; colMod < 2; colMod++){
                 if(adjacentCheck(lastPlacement,rowMod,colMod) == currentPlayer & (Math.abs(rowMod)+Math.abs(colMod) != 0)){
-                    for(toWin=2;toWin<6;toWin++){
-                        console.log(`${rowMod*toWin},${colMod*toWin}`)
-                    }}
+                    for(toWin=1;toWin<5;toWin++){
+                        if(adjacentCheck(lastPlacement,rowMod*toWin,colMod*toWin)){
+                            console.log(adjacentStones)
+                            console.log(`${rowMod * toWin},${colMod * toWin}`)
+                            adjacentStones++
+                            if (adjacentStones == 4) {
+                                alert(`${currentPlayer} wins!`)
+                            }
+                        }
+                        else{
+                            adjacentStones = 0
+                        }
+                        
+                    }
+                }
             }
         }
+
+        
     }
     //get coordinate for last placement
         //check adjacent cells for allied stones
