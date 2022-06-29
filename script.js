@@ -20,8 +20,8 @@ function adjacentCheck(baseCell,rowModifier,colModifier){
     // console.log(colIndexModded)
     
     let targetCellCol = gridLetters[colIndexModded]
-    if (targetCellRow < 1 || targetCellRow > 20) { return 1 }
-    else if (colIndexModded < 0 || colIndexModded > 19) { return 2 }
+    if (targetCellRow < 1 || targetCellRow > 20) { return 0 }
+    else if (colIndexModded < 0 || colIndexModded > 19) { return 0 }
     else {
         let targetCell = document.getElementsByClassName(`${targetCellRow} ${targetCellCol}`)
         //console.log(targetCell)
@@ -30,7 +30,8 @@ function adjacentCheck(baseCell,rowModifier,colModifier){
         let targetCellClassList = targetCell[0].classList
         if (targetCellClassList.length > 3) {
             return targetCellClassList[3]
-        } 
+        }
+        else{return false} 
     }
 }
 
@@ -53,45 +54,66 @@ function winCheck(lastPlacement){
     //check if player's capture total has reached 10
     if (captures[currentPlayer] == 10){console.log(`${currentPlayer} wins!`)}
     else{
-        let adjacentStones = 0
+        let adjacentStones = 0 //declare stone counter
         for(rowMod= -1; rowMod < 2; rowMod++){
             for(colMod= -1; colMod < 2; colMod++){
-                if(adjacentCheck(lastPlacement,rowMod,colMod) == currentPlayer & (Math.abs(rowMod)+Math.abs(colMod) != 0)){
-                    for(toWin=1;toWin<5;toWin++){
-                        if(adjacentCheck(lastPlacement,rowMod*toWin,colMod*toWin)){
-                            console.log(adjacentStones)
-                            console.log(`${rowMod * toWin},${colMod * toWin}`)
+                if(adjacentCheck(lastPlacement,rowMod,colMod) == currentPlayer & (Math.abs(rowMod)+Math.abs(colMod) != 0)){ 
+                    adjacentStones = 1 //check cells around last stone placed, but not the cell itself
+                    let adjMod = 2
+                    while (10>adjacentStones > 0){
+                        if(adjacentCheck(lastPlacement, rowMod * adjMod, colMod * adjMod) == currentPlayer){
                             adjacentStones++
-                            if (adjacentStones == 4) {
-                                alert(`${currentPlayer} wins!`)
-                            }
+                            adjMod++
                         }
-                        else{
-                            adjacentStones = 0
+                        else if(adjacentCheck(lastPlacement,-rowMod,-colMod)==currentPlayer){
+                            adjacentStones++
+                            if (adjacentCheck(lastPlacement, -rowMod*2, -colMod*2) == currentPlayer) {
+                                adjacentStones++}
+
+                            // for(n=1;n<6-adjMod;n++){
+                            //     console.log(n)
+                            //     if (adjacentCheck(lastPlacement, -rowMod * n, -colMod * n)) { 
+                            //         adjacentStones++ }
+                            // }
+                            console.log(adjacentStones)
                         }
+                        else {adjacentStones=0}
+                        }
+                    // for(toWin=1;toWin<5;toWin++){ //if there is an allied cell adjacent, check stones in the same direction
+                    //     if(adjacentCheck(lastPlacement,rowMod*toWin,colMod*toWin)==currentPlayer){ //if another allied stone is present...
+                    //         adjacentStones++ //iterate adjacent stones
+                    //         console.log(adjacentStones)
+                    //         console.log(`${rowMod * toWin},${colMod * toWin}`)
+                    //         if (adjacentStones == 5) { //if there are 4 stones next to the last stone placed, that means there's 5 in the row
+                    //             alert(`${currentPlayer} wins!`)
+                    //         }
+                    //         //TODO: check opposite direction for allied stones in case of middle placement
+                    //     }
+                    //     else{ //if an empty cell or an opposing stone is after the allied stone, stop counting
+                    //         adjacentStones = 0
+                    //     }
                         
-                    }
+                    // }
                 }
             }
         }
-
-        
     }
-    //get coordinate for last placement
-        //check adjacent cells for allied stones
 }
 
 function playGame(){
     document.addEventListener('mousedown', function (e) {
-        // console.log(e.path[0].classList);
-        let cellSelect = document.getElementsByClassName(`${e.path[0].classList}`);
-        // console.log(cellSelect[0].classList);
-        // console.log(cellSelect)
-        if (cellSelect[0].classList.length < 4){
-            cellSelect[0].classList.add(currentPlayer);
-            captureCheck(cellSelect)
-            winCheck(cellSelect)
-            passTurn()
+        let cellClass = e.path[0].classList
+        if (cellClass.contains('cell')) { 
+            let cellSelect = document.getElementsByClassName(`${e.path[0].classList}`);
+            // console.log(cellSelect[0].classList);
+            // console.log(cellSelect)
+            if (cellSelect[0].classList.length < 4){
+                cellSelect[0].classList.add(currentPlayer);
+                captureCheck(cellSelect)
+                winCheck(cellSelect)
+                passTurn()
+                console.log(currentPlayer)
+            }
         }  
     })
 
